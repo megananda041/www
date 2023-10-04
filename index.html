@@ -1,17 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Data Viewer</title>
+  <title>Data Fetcher</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-  <form action="/load_data" method="post">
-    <input type="text" name="url" placeholder="Enter URL">
-    <button type="submit">Load Data</button>
-  </form>
+  <div>
+    <label for="urlInput">URL:</label>
+    <input type="text" id="urlInput" placeholder="Enter URL">
+    <button onclick="fetchData()">Fetch Data</button>
+  </div>
 
-  <div id="dataLocation"></div>
-  <table id="dataTable">
-    <!-- Table content will be displayed here -->
-  </table>
+  <div id="tableContainer"></div>
+
+  <script>
+    function fetchData() {
+      const url = document.getElementById('urlInput').value;
+      const tableContainer = document.getElementById('tableContainer');
+
+      // Fetch data using Axios
+      axios.get(url)
+        .then(response => {
+          const data = response.data;
+
+          // Create and display the HTML table
+          const table = document.createElement('table');
+          const headers = Object.keys(data[0]);
+
+          // Create table headers
+          const headerRow = table.insertRow();
+          headers.forEach(header => {
+            const cell = headerRow.insertCell();
+            cell.textContent = header;
+          });
+
+          // Create table rows
+          data.forEach(item => {
+            const row = table.insertRow();
+            headers.forEach(header => {
+              const cell = row.insertCell();
+              cell.textContent = item[header];
+            });
+          });
+
+          // Display the table
+          tableContainer.innerHTML = '';
+          tableContainer.appendChild(table);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          tableContainer.innerHTML = 'Error fetching data. Please check the URL and try again.';
+        });
+    }
+  </script>
 </body>
 </html>
