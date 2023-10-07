@@ -18,34 +18,32 @@
       const url = document.getElementById('urlInput').value;
       const tableContainer = document.getElementById('tableContainer');
 
-      // Fetch data using Axios
+    // Fetch data
       axios.get(url)
         .then(response => {
           const data = response.data;
 
-          // Create and display the HTML table
-          const table = document.createElement('table');
+          // tabel
+          let table = "<table border='1'>";
+          table += "<tr>";
+
+          // header tabel
           const headers = Object.keys(data[0]);
-
-          // Create table headers
-          const headerRow = table.insertRow();
           headers.forEach(header => {
-            const cell = headerRow.insertCell();
-            cell.textContent = header;
+            table += `<th>${header}</th>`;
           });
+          table += "</tr>";
 
-          // Create table rows
           data.forEach(item => {
-            const row = table.insertRow();
+            table += "<tr>";
             headers.forEach(header => {
-              const cell = row.insertCell();
-              cell.textContent = item[header];
+              table += `<td>${item[header]}</td>`;
             });
+            table += "</tr>";
           });
 
-          // Display the table
-          tableContainer.innerHTML = '';
-          tableContainer.appendChild(table);
+          table += "</table>";
+          tableContainer.innerHTML = table;
         })
         .catch(error => {
           console.error('Error fetching data:', error);
