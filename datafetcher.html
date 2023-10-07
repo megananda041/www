@@ -23,11 +23,11 @@
         .then(response => {
           const data = response.data;
 
-          // tabel
+          // Tabel
           let table = "<table border='1'>";
           table += "<tr>";
 
-          // header tabel
+          // Header tabel
           const headers = Object.keys(data[0]);
           headers.forEach(header => {
             table += `<th>${header}</th>`;
