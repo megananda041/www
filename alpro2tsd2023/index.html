@@ -14,6 +14,10 @@
     <h2>JSON Output:</h2>
     <pre id="jsonOutput"></pre>
   </div>
+  <div>
+    <p>Get JSON data using PHP link:</p>
+    <a id="jsonLink" href="javascript:void(0);" target="_blank">Download JSON</a>
+  </div>
   <script>
     function convertCSVToJSON() {
       const csvUrlInput = document.getElementById('csvUrlInput').value;
@@ -24,6 +28,13 @@
         .then(response => response.text())
         .then(data => {
           jsonOutput.textContent = data;
+
+          // Generate a PHP link
+          const jsonLink = document.getElementById('jsonLink');
+          const jsonDataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
+          jsonLink.href = 'data:text/json;charset=utf-8,' + jsonDataUri;
+          jsonLink.download = 'output.json';
+          jsonLink.textContent = 'Download JSON';
         })
         .catch(error => {
           jsonOutput.textContent = 'Error: ' + error;
