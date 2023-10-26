@@ -15,7 +15,7 @@
     <pre id="jsonOutput"></pre>
   </div>
   <div>
-    <p>Get JSON data using PHP link:</p>
+    <p>Download JSON:</p>
     <a id="jsonLink" href="javascript:void(0);" target="_blank">Download JSON</a>
   </div>
   <script>
@@ -31,10 +31,10 @@
 
           // Generate a PHP link
           const jsonLink = document.getElementById('jsonLink');
-          const jsonDataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(data);
+          const jsonDataUri = encodeURIComponent(data);
           jsonLink.href = 'data:text/json;charset=utf-8,' + jsonDataUri;
           jsonLink.download = 'output.json';
-          jsonLink.textContent = 'Download JSON';
+          jsonLink.textContent = 'Click';
         })
         .catch(error => {
           jsonOutput.textContent = 'Error: ' + error;

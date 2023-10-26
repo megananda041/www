@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Fetcher</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div>
+    <label for="urlInput">URL:</label>
+    <input type="text" id="urlInput" placeholder="Enter URL">
+    <button onclick="fetchData()">Fetch Data</button>
+  </div>
+
+  <div>
+    <label for="searchInput">Search:</label>
+    <input type="text" id="searchInput" placeholder="Enter search term" onkeyup="searchTable()">
+  </div>
+
+  <div id="tableContainer"></div>
+
+  <script>
+    let tableData = [];
+
+    function fetchData() {
+      const url = document.getElementById('urlInput').value;
+      const tableContainer = document.getElementById('tableContainer');
+
+      // Fetch data
+      axios.get(url)
+        .then(response => {
+          const data = response.data;
+          tableData = data; // Store data for searching
+
+          // Table
+          let table = "<table border='1'>";
+          table += "<tr>";
+
+          // Header table
+          const headers = Object.keys(data[0]);
+          headers.forEach(header => {
+            table += `<th>${header}</th>`;
+          });
+          table += "</tr>";
+
+          data.forEach(item => {
+            table += "<tr>";
+            headers.forEach(header => {
+              table += `<td>${item[header]}</td>`;
+            });
+            table += "</tr>";
+          });
+
+          table += "</table>";
+          tableContainer.innerHTML = table;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          tableContainer.innerHTML = 'Error fetching data. Please check the URL and try again.';
+        });
+    }
+
+    function searchTable() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+
+      const filteredData = tableData.filter(item => {
+        return Object.values(item).some(value => value.toLowerCase().includes(searchInput));
+      });
+
+      displayTable(filteredData);
+    }
+
+    function displayTable(data) {
+      const tableContainer = document.getElementById('tableContainer');
+      let table = "<table border='1'>";
+      table += "<tr>";
+
+      // Header table
+      const headers = Object.keys(data[0]);
+      headers.forEach(header => {
+        table += `<th>${header}</th>`;
+      });
+      table += "</tr>";
+
+      data.forEach(item => {
+        table += "<tr>";
+        headers.forEach(header => {
+          table += `<td>${item[header]}</td>`;
+        });
+        table += "</tr>";
+      });
+
+      table += "</table>";
+      tableContainer.innerHTML = table;
+    }
+  </script>
+</body>
+</html>
