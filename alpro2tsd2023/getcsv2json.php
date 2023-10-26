@@ -16,8 +16,8 @@ function csvToJson($csvUrl) {
     $jsonArray = [];
 
     foreach ($csvData as $row) {
-        $jsonArrayItem = []; // Corrected the array initialization
-        for ($i = 0; $i < count($headers); $i++) { // Corrected the for loop
+        $jsonArrayItem = [];
+        for ($i = 0; $i < count($headers); $i++) {
             $jsonArrayItem[$headers[$i]] = $row[$i];
         }
         $jsonArray[] = $jsonArrayItem;
@@ -26,7 +26,7 @@ function csvToJson($csvUrl) {
     return json_encode($jsonArray);
 }
 
-$csvUrl = 'https://testingalpro.alwaysdata.net/api/coffee.csv';
+$csvUrl = 'https://megananda.alwaysdata.net/datapribadi.csv';
 $jsonData = csvToJson($csvUrl);
 
 // Set the content type to JSON

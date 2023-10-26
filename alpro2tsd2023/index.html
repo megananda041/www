@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSV to JSON Converter</title>
+  <script>
+    function convertCSVToJSON() {
+      const csvInput = document.getElementById('csvInput').value;
+      const jsonData = csvToJson(csvInput);
+
+      // Display the JSON data
+      document.getElementById('jsonOutput').textContent = jsonData;
+    }
+
+    function csvToJson(csv) {
+      const lines = csv.split('\n');
+      const headers = lines[0].split(',');
+      const json = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const data = lines[i].split(',');
+        const item = {};
+
+        for (let j = 0; j < headers.length; j++) {
+          item[headers[j]] = data[j];
+        }
+
+        json.push(item);
+      }
+
+      return JSON.stringify(json, null, 2);
+    }
+  </script>
+</head>
+<body>
+  <h1>CSV to JSON Converter</h1>
+  <div>
+    <label for="csvInput">CSV Data:</label>
+    <textarea id="csvInput" placeholder="Paste CSV data here"></textarea>
+  </div>
+  <div>
+    <button onclick="convertCSVToJSON()">Convert to JSON</button>
+  </div>
+  <div>
+    <h2>JSON Output:</h2>
+    <pre id="jsonOutput"></pre>
+  </div>
+</body>
+</html>
